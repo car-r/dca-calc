@@ -111,6 +111,7 @@ import { Result } from "postcss";
 
 
 export const loader = async () => {
+    // calculations showing infinity value for current USD value and Total Gain.
     // const options = {
     //     method: 'GET',
     //     headers: {
@@ -124,14 +125,34 @@ export const loader = async () => {
     //     return result
     // }
     // const data = await fetchData()
+    // return data
 
 
     const testData = {data: [
-        { price: '46552.90192901236', timestamp: 1641254400 },
-        { price: '47420.210724025674', timestamp: 1641168000 },
-        { price: '47778.49399303909', timestamp: 1641081600 },
+        { price: '39620.436169146116', timestamp: 1649721600 },
+        { price: '42269.15275092676', timestamp: 1649635200 },
+        { price: '42774.473086433594', timestamp: 1649548800 },
+        { price: '42327.99188087798', timestamp: 1649462400 },
+        { price: '43491.05582758928', timestamp: 1649376000 },
+        { price: '43226.7583720783', timestamp: 1649289600 },
+        { price: '45614.35512944004', timestamp: 1649203200 },
+        { price: '46629.495966930495', timestamp: 1649116800 },
+        { price: '46520.2065613863', timestamp: 1649030400 },
+        { price: '45928.61935566642', timestamp: 1648944000 },
+        { price: '46260.34772256533', timestamp: 1648857600 },
+        { price: '45544.57004943779', timestamp: 1648771200 },
+        { price: '47076.566097362425', timestamp: 1648684800 },
+        { price: '47461.39419303183', timestamp: 1648598400 },
+        { price: '47144.95236445738', timestamp: 1648512000 },
+        { price: '46457.8289415119', timestamp: 1648425600 },
+        { price: '44518.05817848312', timestamp: 1648339200 },
+        { price: '44188.22521644064', timestamp: 1648252800 },
+        { price: '43946.19812068838', timestamp: 1648166400 },
+        { price: '42810.767186580386', timestamp: 1648080000 },
+        
     ]}
-    // return data.json()
+    
+    
     return testData
 }
 
@@ -146,10 +167,24 @@ export default function Home() {
 
 
     //const [stockData, setStockData] = useState({})
+
+    // can the logic below be moved to the loader? Is this logic happening client side if inside the component?
+    // what about selecting the DCA amount for the various time intervals?
+
+    // use with testData
     const numberData = data.data.map((entry: any) => (Number(entry.price)))
-    const satsData = numberData.map((price: any) => ((100000000 / price) * 100))
+
+    // use with API
+    // const numberData = data.data.history.map((entry: any) => (Number(entry.price)))
+    
+    const satsData = numberData.map((price: any) => ((100000000 / price) * 25))
     const totalSats = satsData.reduce((a: any, v: any) => a + v, 0)
-    console.log(satsData)
+    const totalInvestment = satsData.length * 25
+    const currentUSD = ((numberData[0] / 100000000) * totalSats)
+    const gainLoss = currentUSD - totalInvestment
+    
+    console.log(data.data.history)
+    
     return (
         
         <div>
@@ -157,7 +192,10 @@ export default function Home() {
             {/* {data.data.map((entry: any) => (
                 <p key={entry.timestamp}>{Number(entry.price) / 2}</p>
             ))} */}
-            {totalSats}
+            <p>Total Satoshis: {totalSats}</p>
+            <p>Total Investment USD: {totalInvestment}</p>
+            <p>Current USD Value: {currentUSD}</p>
+            <p>{`Total ${gainLoss > 0 ? 'Gain: ' : 'Loss: '}`}{gainLoss}</p>
         </div>
     )
 }
