@@ -1,4 +1,4 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, Form } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 import { useEffect, useState } from "react";
 import { resourceLimits } from "worker_threads";
@@ -315,18 +315,40 @@ export default function Home() {
     const satsData = data.map((interval: any) => ((100000000 / interval.low) * 25))
     const totalSats = satsData.reduce((a: any, v: any) => a + v, 0)
     const totalInvestment = satsData.length * 25
-    const currentUSD = ((data[totalIntervals - 1].low / 100000000) * totalSats)
-    const gainLoss = currentUSD - totalInvestment
+    const currentUSD: any = ((data[totalIntervals - 1].low / 100000000) * totalSats).toFixed(2)
+    const gainLoss = (currentUSD - totalInvestment)
+    const roundedGainLoss = gainLoss.toFixed(2)
+    const gainLossString = roundedGainLoss.toString()
+    
 
     console.log(data, totalIntervals)
     return(
-        <div>
-            <h1>DCA BTC CALC</h1>
-            <p>Total Satoshis: {totalSats}</p>
-            <p>Total Investment USD: {totalInvestment}</p>
-            <p>Current USD Value: {currentUSD}</p>
-            <p>{`Total ${gainLoss > 0 ? 'Gain: ' : 'Loss: '}`}{gainLoss}</p>
+        <div className="flex flex-col">
+            <h1 className="text-neutral-300 font-bold">DCA BTC CALC</h1>
+            
+            <Form method="post" className="bg-neutral-800 p-4 rounded-lg text-neutral-400 mx-auto flex flex-col">
+                <div className="mb-4 flex flex-col">
+                    <label className="mb-2 font-semibold" >Frequency</label>
+                    <select name="frequency" className="rounded px-2 py-1 text-black" id="">
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                </div>
 
+                <div className="flex flex-col">
+                    <label className="mb-2 font-semibold">Amount</label>
+                    <input type="number" className="rounded px-2 py-1 text-black" name="Amount" />
+                </div>
+                
+            </Form>
+            <div className="bg-neutral-800 p-4 rounded-lg text-neutral-400 mx-auto">
+                <p className="font-semibold">Total Satoshis: <span className="font-normal">{totalSats}</span></p>
+                <p className="font-semibold">Total Investment USD: <span className="font-normal">${totalInvestment}</span></p>
+                <p className="font-semibold">Current USD Value: <span className="font-normal">${currentUSD}</span></p>
+                <p className="font-semibold">{`Total ${gainLoss > 0 ? 'Gain: ' : 'Loss: '}`}<span className="font-normal">${gainLoss > 0 ? gainLoss.toFixed(2) : gainLossString.slice(1)}</span></p>
+            </div>
+            
         </div>
     )
 }
