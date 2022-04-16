@@ -5,7 +5,7 @@ import { resourceLimits } from "worker_threads";
 import { Result } from "postcss";
 
 
-export const loader = async () => {
+export const loader = async ({request}: any) => {
 
     const testData = [
         {
@@ -288,7 +288,7 @@ export const loader = async () => {
           currency: 'USD'
         },
     ]
-
+    
     return testData
 
     // const options = {
@@ -309,6 +309,12 @@ export const loader = async () => {
 
 }
 
+export const action = async ({request}: any) => {
+    const form = await request.formData()
+    const freq = form.get('frequency')
+    return redirect('/dca-calc-btc')
+}
+
 export default function Home() {
     const data = useLoaderData()
     const totalIntervals = data.length
@@ -323,13 +329,30 @@ export default function Home() {
 
     console.log(data, totalIntervals)
     return(
-        <div className="flex flex-col">
-            <h1 className="text-neutral-300 font-bold">DCA BTC CALC</h1>
+        <div className="grid grid-cols-1 w-11/12 mx-auto gap-4">
+            <h1 className="text-neutral-700 font-bold">DCA BTC CALC</h1>
             
-            <Form method="post" className="bg-neutral-800 p-4 rounded-lg text-neutral-400 mx-auto flex flex-col">
+            <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
+                <p className="font-bold text-2xl">{totalSats.toFixed(0)}</p>
+                <p className="font-light">Total Satoshis</p>
+            </div>
+            <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
+                <p className="font-bold text-2xl">${currentUSD}</p>
+                <p className="font-light">Current Value</p>
+            </div>
+            <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
+                <p className="font-bold text-2xl">${gainLoss > 0 ? gainLoss.toFixed(2) : gainLossString.slice(1)}</p>
+                <p className="font-light">{`Total ${gainLoss > 0 ? 'Gain' : 'Loss'}`}</p>
+            </div>
+            <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
+                <p className="font-bold text-2xl">${totalInvestment}</p>
+                <p className="font-light">Total Investment</p>
+            </div>
+            
+            <Form method="post" className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
                 <div className="mb-4 flex flex-col">
                     <label className="mb-2 font-semibold" >Frequency</label>
-                    <select name="frequency" className="rounded px-2 py-1 text-black" id="">
+                    <select name="frequency" className="rounded px-2 py-1 text-black border border-neutral-200" id="">
                         <option value="daily">Daily</option>
                         <option value="weekly">Weekly</option>
                         <option value="monthly">Monthly</option>
@@ -338,17 +361,10 @@ export default function Home() {
 
                 <div className="flex flex-col">
                     <label className="mb-2 font-semibold">Amount</label>
-                    <input type="number" className="rounded px-2 py-1 text-black" name="Amount" />
-                </div>
-                
+                    <input type="number" className="rounded px-2 py-1 text-black border border-neutral-200" name="Amount" />
+                </div>    
+                <button type="submit">Calculate</button>
             </Form>
-            <div className="bg-neutral-800 p-4 rounded-lg text-neutral-400 mx-auto">
-                <p className="font-semibold">Total Satoshis: <span className="font-normal">{totalSats}</span></p>
-                <p className="font-semibold">Total Investment USD: <span className="font-normal">${totalInvestment}</span></p>
-                <p className="font-semibold">Current USD Value: <span className="font-normal">${currentUSD}</span></p>
-                <p className="font-semibold">{`Total ${gainLoss > 0 ? 'Gain: ' : 'Loss: '}`}<span className="font-normal">${gainLoss > 0 ? gainLoss.toFixed(2) : gainLossString.slice(1)}</span></p>
-            </div>
-            
         </div>
     )
 }
