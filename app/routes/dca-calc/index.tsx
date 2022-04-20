@@ -187,43 +187,15 @@ export default function Home() {
     
     return (
         
-        
-            <div className="grid grid-cols-1 w-11/12 mx-auto gap-4">
-                <h1 className="text-neutral-700 font-bold">DCA BTC CALC</h1>
-                
-                <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
-                    <p className="font-bold text-2xl">{totalSats.toFixed(0)}</p>
-                    <p className="font-light">Total Satoshis</p>
-                </div>
-                <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
-                    <p className="font-bold text-2xl">${currentUSD}</p>
-                    <p className="font-light">Current Value</p>
-                </div>
-                <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
-                    <p className="font-bold text-2xl">${gainLoss > 0 ? gainLoss.toFixed(2) : gainLossString.slice(1)}</p>
-                    <p className="font-light">{`Total ${gainLoss > 0 ? 'Gain' : 'Loss'}`}</p>
-                </div>
-                <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
-                    <p className="font-bold text-2xl">${totalInvestment}</p>
-                    <p className="font-light">Total Investment</p>
-                </div>
-                
-                <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
-                    <div className="mb-4 flex flex-col">
-                        <label className="mb-2 font-semibold" >Frequency</label>
-                        <select name="frequency" className="rounded px-2 py-1 text-black border border-neutral-200" id="">
-                            <option value="daily">Daily</option>
-                            <option value="weekly">Weekly</option>
-                            <option value="monthly">Monthly</option>
-                        </select>
-                    </div>
-    
-                    <div className="flex flex-col">
-                        <label className="mb-2 font-semibold">Amount</label>
-                        <input type="number" className="rounded px-2 py-1 text-black border border-neutral-200" name="Amount" />
-                    </div>    
-                    <button type="submit">Calculate</button>
-                </div>
-            </div>
+        <div>
+            <h1>DCA Calc Home</h1>
+            {/* {data.data.map((entry: any) => (
+                <p key={entry.timestamp}>{Number(entry.price) / 2}</p>
+            ))} */}
+            <p>Total Satoshis: {totalSats}</p>
+            <p>Total Investment USD: {totalInvestment}</p>
+            <p>Current USD Value: {currentUSD}</p>
+            <p>{`Total ${gainLoss > 0 ? 'Gain: ' : 'Loss: '}`}{gainLoss}</p>
+        </div>
     )
 }

@@ -25,6 +25,15 @@ model Password {
   userId String @unique
 }
 
+model BackTest {
+  id    String @id @default(cuid())
+  createdAt DateTime @default(now())
+  frequency String
+  amount String
+  startDate String
+  endData String
+}
+
 model Note {
   id    String @id @default(cuid())
   title String
