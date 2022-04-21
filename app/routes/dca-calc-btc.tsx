@@ -362,6 +362,7 @@ export default function Home() {
                         <option value="Weekly">Weekly</option>
                         <option value="Monthly">Monthly</option>
                     </select>
+                    
                 </div>
                 <div className="flex flex-col pb-6">
                     <label className="mb-2 font-semibold">Amount</label>

@@ -317,10 +317,13 @@ export default function DcaDetailPage({params}: any) {
     const totalIntervals = data[1].length
     const satsData = data[1].map((interval: any) => ((100000000 / interval.low) * data[0].amount))
     const totalSats = satsData.reduce((a: any, v: any) => a + v, 0)
+    const displayTotalSats = Number(totalSats).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})
     const totalInvestment = satsData.length * data[0].amount
+    const displayTotalInvestment = Number(totalInvestment).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})
     const currentUSD: any = ((data[1][totalIntervals - 1].low / 100000000) * totalSats).toFixed(2)
+    const displayCurrentValue = Number(currentUSD).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2})
     const gainLoss = (currentUSD - totalInvestment)
-    const roundedGainLoss = gainLoss.toFixed(2)
+    const roundedGainLoss = Number(gainLoss.toFixed(2)).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2})
     const gainLossString = roundedGainLoss.toString()
     
     console.log(data)
@@ -328,11 +331,11 @@ export default function DcaDetailPage({params}: any) {
         <div className="grid grid-cols-1 gap-4">
             <h1>DCA Detail Page</h1>
             <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
-                <p className="font-bold text-2xl">{totalSats.toFixed(0)}</p>
+                <p className="font-bold text-2xl">{displayTotalSats}</p>
                 <p className="font-light">Total Satoshis</p>
             </div>
             <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
-                <p className="font-bold text-2xl">${currentUSD}</p>
+                <p className="font-bold text-2xl">${displayCurrentValue}</p>
                 <p className="font-light">Current Value</p>
             </div>
             <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
@@ -340,7 +343,7 @@ export default function DcaDetailPage({params}: any) {
                 <p className="font-light">{`Total ${gainLoss > 0 ? 'Gain' : 'Loss'}`}</p>
             </div>
             <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
-                <p className="font-bold text-2xl">${totalInvestment}</p>
+                <p className="font-bold text-2xl">${displayTotalInvestment}</p>
                 <p className="font-light">Total Investment</p>
             </div>
         </div>
