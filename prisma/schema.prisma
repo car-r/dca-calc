@@ -32,6 +32,7 @@ model BackTest {
   amount String
   startDate String
   endData String
+  asset String?
 }
 
 model Note {

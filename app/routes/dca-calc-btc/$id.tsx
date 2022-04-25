@@ -308,25 +308,43 @@ export const loader = async ({params}: any) => {
     }
     const testData = await fetchData()
 
+    const recentUrl = `https://global-market-data.p.rapidapi.com/crypto/recent_data?crypto=Bitcoin&interval=Daily`
+    const recentOptions = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Host': 'global-market-data.p.rapidapi.com',
+            'X-RapidAPI-Key': '4413f618e1mshd0f0456944bd00cp1f9e71jsn6c817e07fc6c'
+        }
+    };
+
+    const fetchRecentData = async () => {
+        const res = await fetch(recentUrl, recentOptions)
+        const result = res.json()
+        return result
+    }
+    const recentData = await fetchRecentData()
+
     
-    return [data, testData, newUrl]
+    return [data, testData, recentData]
 } 
 
 export default function DcaDetailPage({params}: any) {
     const data = useLoaderData()
+    const recentDataLength = data[2].length
+    const recentData = data[2][recentDataLength - 1]['low']
     const totalIntervals = data[1].length
     const satsData = data[1].map((interval: any) => ((100000000 / interval.low) * data[0].amount))
     const totalSats = satsData.reduce((a: any, v: any) => a + v, 0)
     const displayTotalSats = Number(totalSats).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})
     const totalInvestment = satsData.length * data[0].amount
     const displayTotalInvestment = Number(totalInvestment).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})
-    const currentUSD: any = ((data[1][totalIntervals - 1].low / 100000000) * totalSats).toFixed(2)
+    const currentUSD: any = ((recentData / 100000000) * totalSats).toFixed(2)
     const displayCurrentValue = Number(currentUSD).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2})
     const gainLoss = (currentUSD - totalInvestment)
     const roundedGainLoss = Number(gainLoss.toFixed(2)).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2})
     const gainLossString = roundedGainLoss.toString()
     
-    console.log(data)
+    console.log(data, recentDataLength, recentData)
     return (
         <div className="grid grid-cols-1 gap-4">
             <h1>DCA Detail Page</h1>
