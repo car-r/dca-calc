@@ -320,13 +320,15 @@ export const action = async ({ request }: any) => {
   const frequency = formData.get('frequency')
   const startDate = formData.get('startdate')
   const endData = formData.get('enddate')
+  const asset = formData.get('asset')
 
   const entry = await prisma.backTest.create({
     data: {
       frequency,
       amount,
       startDate,
-      endData
+      endData,
+      asset
     }
   })
 
@@ -375,6 +377,9 @@ export default function Home() {
                 <div className="flex flex-col pb-6">
                     <label className="mb-2 font-semibold">End Date (yyyy-dd-mm)</label>
                     <input type="string" className="rounded px-2 py-1 text-black border border-neutral-200" name="enddate" />
+                </div>
+                <div>
+                  <input type="hidden" name="asset" value="Bitcoin"/>
                 </div>
                      
                 <button type="submit" className="bg-neutral-400 border border-neutral-400 p-2 text-center text-white font-bold rounded-lg hover:bg-white hover:text-black">Calculate</button>
