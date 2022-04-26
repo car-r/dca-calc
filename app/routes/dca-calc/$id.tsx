@@ -195,7 +195,7 @@ export const loader = async ({params}: any) => {
     //     'https://global-market-data.p.rapidapi.com/stock/historical_data?from_date=2021-01-01&stock=AAPL&country=united%20states&to_date=2021-01-31&interval=Daily'
     //   ]
 
-    const newUrl = `https://global-market-data.p.rapidapi.com/stock/historical_data?from_date=${data.startDate}&stock=AAPL&country=united%20states&to_date=${data.endData}&interval=${data.frequency}`
+    const newUrl = `https://global-market-data.p.rapidapi.com/stock/historical_data?from_date=${data.startDate}&stock=${data.asset}&country=united%20states&to_date=${data.endData}&interval=${data.frequency}`
     const options = {
         method: 'GET',
         headers: {
@@ -209,7 +209,8 @@ export const loader = async ({params}: any) => {
         const result = res.json()
         return result
     }
-    const testData = await fetchData()
+    const dcaData = await fetchData()
+
 
     const recentUrl = `https://global-market-data.p.rapidapi.com/stock/info?stock=${data.asset}&country=united%20states`
     const recentOptions = {
@@ -228,35 +229,40 @@ export const loader = async ({params}: any) => {
     const recentData = await fetchRecentData()
 
     
-    return [data, testData, recentData]
+    return [data, dcaData, recentData]
 } 
 
 export default function DcaStockDetailPage({params}: any) {
     const data = useLoaderData()
     const totalIntervals = data[1].length
     const recentData = data[2]
-    const satsData = data[1].map((interval: any) => ((data[0].amount / interval.low)))
-    const totalSats = satsData.reduce((a: any, v: any) => a + v, 0)
-    const displayTotalSats = Number(totalSats).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1})
-    const totalInvestment = satsData.length * data[0].amount
+    const sharesData = data[1].map((interval: any) => ((data[0].amount / interval.low)))
+    const totalShares = sharesData.reduce((a: any, v: any) => a + v, 0)
+    const displayTotalShares = Number(totalShares).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1})
+    const totalInvestment = sharesData.length * data[0].amount
     const displayTotalInvestment = Number(totalInvestment).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})
-    const currentUSD: any = (data[2]['open'] * totalSats).toFixed(2)
+    const currentUSD: any = (data[2]['open'] * totalShares).toFixed(2)
     const displayCurrentValue = Number(currentUSD).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2})
     const gainLoss = (currentUSD - totalInvestment)
     const roundedGainLoss = Number(gainLoss.toFixed(2)).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2})
     const gainLossString = roundedGainLoss.toString()
+    const percentageGainLoss = ((currentUSD / totalInvestment) - 1) * 100
     
-    console.log(data, totalIntervals, satsData, totalSats, totalInvestment, currentUSD, recentData)
+    console.log(data, totalIntervals, sharesData, totalShares, totalInvestment, currentUSD, recentData)
     return (
         <div className="grid grid-cols-1 gap-4">
-            <h1>DCA Detail Page</h1>
+            <h1>{`${data[0]['asset']} ${data[0].frequency} DCA`}</h1>
             <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
-                <p className="font-bold text-2xl">{displayTotalSats}</p>
+                <p className="font-bold text-2xl">{displayTotalShares}</p>
                 <p className="font-light">Total Shares</p>
             </div>
             <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
                 <p className="font-bold text-2xl">${displayCurrentValue}</p>
                 <p className="font-light">Current Value</p>
+            </div>
+            <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
+                <p className="font-bold text-2xl">{percentageGainLoss.toFixed(1)}%</p>
+                <p className="font-light">{`${gainLoss > 0 ? 'Increase' : 'Decrease'}`}</p>
             </div>
             <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
                 <p className="font-bold text-2xl">${gainLoss > 0 ? gainLoss.toFixed(2) : gainLossString.slice(1)}</p>
