@@ -342,12 +342,12 @@ export default function DcaDetailPage({params}: any) {
     const displayCurrentValue = Number(currentUSD).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2})
     const gainLoss = (currentUSD - totalInvestment)
     const roundedGainLoss = Number(gainLoss.toFixed(2)).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2})
-    const gainLossString = roundedGainLoss.toString()
+    const percentageGainLoss = ((currentUSD / totalInvestment) - 1) * 100
     
     console.log(data, recentDataLength, recentData)
     return (
         <div className="grid grid-cols-1 gap-4">
-            <h1>DCA Detail Page</h1>
+            <h1>{`${data[0]['asset']} ${data[0].frequency} DCA`}</h1>
             <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
                 <p className="font-bold text-2xl">{displayTotalSats}</p>
                 <p className="font-light">Total Satoshis</p>
@@ -357,7 +357,11 @@ export default function DcaDetailPage({params}: any) {
                 <p className="font-light">Current Value</p>
             </div>
             <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
-                <p className="font-bold text-2xl">${gainLoss > 0 ? gainLoss.toFixed(2) : gainLossString.slice(1)}</p>
+                <p className="font-bold text-2xl">{percentageGainLoss.toFixed(1)}%</p>
+                <p className="font-light">{`${gainLoss > 0 ? 'Increase' : 'Decrease'}`}</p>
+            </div>
+            <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
+                <p className="font-bold text-2xl">${roundedGainLoss}</p>
                 <p className="font-light">{`Total ${gainLoss > 0 ? 'Gain' : 'Loss'}`}</p>
             </div>
             <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
