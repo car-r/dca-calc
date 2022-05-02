@@ -5,7 +5,7 @@ import { useOptionalUser } from "~/utils";
 export default function Index() {
   const user = useOptionalUser();
   return (
-    <main className="relative min-h-screen mx-auto flex flex-col sm:flex sm:items-center ">
+    <main className="relative min-h-screen mx-auto flex flex-col sm:flex sm:items-center">
       <div className="py-24 sm:py-32 px-4">
         <div className="mb-4 text-center">
           <h2 className="text-5xl font-bold mb-1">Dollar Cost Average Calculator</h2>
@@ -49,17 +49,55 @@ export default function Index() {
             </div>
           </div>
         </div>
-        
       </div>
-      <div className="py-20 px-4 flex flex-col w-full items-center">
+      <div className="py-20 sm:py-32 px-4 flex flex-col w-full items-center">
         <h2 className="text-2xl font-semibold mb-6">What is Dollar Cost Averaging?</h2>
         <div className="max-w-2xl">
-          <p className="mb-4">Dollar cost averaging is an investing technique where an investor buys a fixed dollar 
-            amount of an asset at a specified frequency. This is typically done on a dialy, weekly, or monthly basis. 
-            Those just starting out in their investing journey don't always have access to a significant 
-            amount of money to make a one time purchase. Inflation, budgets, and life can make it difficult 
-            for those just starting out. Dollar cost averaging is a great way to get started, especially since fractional purchases are now available.
-          </p>
+          <div className="mb-10">
+            <p className="mb-4">Dollar cost averaging is an investing technique where an investor buys a fixed dollar 
+              amount of an asset at a specified frequency. This is typically done on a dialy, weekly, or monthly basis. 
+              Those just starting out in their investing journey don't always have access to a significant 
+              amount of money to make a one time purchase. Inflation, budgets, and life can make it difficult 
+              for those just starting out. Dollar cost averaging is a great way to get started with your investing journey. 
+              Especially since fractional purchases are now available from online brokerages.
+            </p>
+            <p className="mb-4">
+              There is a popular saying in investing that 'Time in the market beats timing the market'. Dollar cost averaging
+              allows the investor to worry less about trying to time the market, and take advantage of being invested in the market
+              for longer periods of time. Many beginners also have an urge to become day traders, while not thinking about
+              investing for the long term and for their future. They also rarely consider the tax consequences of buying and
+              selling over short periods of time.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="bg-white py-20 px-4 sm:py-32 w-full flex flex-col">
+        <div className="mx-auto">
+        <h3 className="font-bold text-lg mb-2">Dollar Cost Average Examples</h3>
+        <div className="mb-8">
+          <p className="underline mb-2">Buying $5 worth of bitcoin every day from 1-1-2020 until 12-31-2021</p>
+          <p className="">• Total Investment: $3,655</p>
+          <p>• Total Bitcoin Purchased: 23,098,975 Satoshis</p>
+          <p>• Current Value assuming BTC price @ $38,400: $8,867</p>
+          <p>• Current Gain assuming BTC price @ $38,400: $5,212</p>
+          <p>• Total Return assuming BTC price @ $38,400: 142.6%</p>
+        </div>
+        <div className="mb-8">
+          <p className="underline mb-2">Buying $100 worth of Apple every week from 1-1-2020 until 12-31-2021</p>
+          <p className="">• Total Investment: $10,400</p>
+          <p>• Total Shares Purchased: 98.3</p>
+          <p>• Current Value assuming AAPL price @ $163: $15,908</p>
+          <p>• Current Gain assuming AAPL price @ $163: $5,508.83</p>
+          <p>• Total Return assuming AAPL price @ $163: 53%</p>
+        </div>
+        <div className="mb-8">
+          <p className="underline mb-2">Buying $250 worth of Amazon every month from 1-1-2020 until 12-31-2021</p>
+          <p className="">• Total Investment: $6,000</p>
+          <p>• Total Shares Purchased: 2.2</p>
+          <p>• Current Value assuming AMZN price @ $2,597: $5,800</p>
+          <p>• Current Loss assuming AAPL price @ $163: $199</p>
+          <p>• Total Return assuming AAPL price @ $163: -3.3%</p>
+        </div>
         </div>
       </div>
     </main>
