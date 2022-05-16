@@ -1,4 +1,5 @@
 import { Link } from "@remix-run/react";
+import Footer from "~/components/footer";
 
 import { useOptionalUser } from "~/utils";
 
@@ -73,7 +74,7 @@ export default function Index() {
       </div>
       <div className="bg-white py-20 px-4 sm:py-32 w-full flex flex-col">
         <div className="mx-auto">
-        <h3 className="font-bold text-lg mb-2">Dollar Cost Average Examples</h3>
+        <h2 className="text-2xl font-semibold mb-6 text-center">Dollar Cost Average Examples</h2>
         <div className="mb-8">
           <p className="underline mb-2">Buying $5 worth of bitcoin every day from 1-1-2020 until 12-31-2021</p>
           <p className="">• Total Investment: $3,655</p>
@@ -100,6 +101,7 @@ export default function Index() {
         </div>
         </div>
       </div>
+      <Footer />
     </main>
   );
 }

@@ -352,7 +352,10 @@ export default function Home() {
     // console.log(data, totalIntervals)
     return(
         <div className="grid grid-cols-1 w-11/12 mx-auto gap-4">
-            <h1 className="text-neutral-700 font-bold">DCA BTC CALC</h1>
+            <div className="pt-10">
+                <h1 className="text-neutral-700 font-bold text-2xl">Stock DCA Calculator</h1>
+            </div>
+            
             
             
             <Outlet />
@@ -386,7 +389,7 @@ export default function Home() {
                     </select>
                 </div>
                      
-                <button type="submit" className="bg-neutral-400 border border-neutral-400 p-2 text-center text-white font-bold rounded-lg hover:bg-white hover:text-black">Calculate</button>
+                <button type="submit" className="bg-neutral-400 border border-neutral-400 p-2 text-center text-white font-bold rounded-lg hover:bg-white hover:text-black hover:ease-in-out hover: duration-300">Calculate</button>
             </Form>
             
         </div>
