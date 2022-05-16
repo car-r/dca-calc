@@ -13,7 +13,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-import Navbar from "./components/navbar";
+import Navbar from "./components/Navbar";
 import SideBar from "./components/Sidebar";
 
 import { useState } from "react";

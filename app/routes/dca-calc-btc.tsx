@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { resourceLimits } from "worker_threads";
 import { Result } from "postcss";
 import { prisma } from "~/db.server";
-import Footer from "~/components/footer";
+
 
 
 // export const loader = async () => {
