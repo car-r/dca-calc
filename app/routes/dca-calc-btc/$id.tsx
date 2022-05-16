@@ -332,7 +332,7 @@ export default function DcaDetailPage({params}: any) {
     const data = useLoaderData()
     const recentDataLength = data[2].length
     const recentData = data[2][recentDataLength - 1]['low']
-    const totalIntervals = data[1].length
+    // const totalIntervals = data[1].length
     const satsData = data[1].map((interval: any) => ((100000000 / interval.low) * data[0].amount))
     const totalSats = satsData.reduce((a: any, v: any) => a + v, 0)
     const displayTotalSats = Number(totalSats).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})
