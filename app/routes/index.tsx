@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react";
-import Footer from "~/components/footer";
+import Footer from "~/components/Footer";
 
 import { useOptionalUser } from "~/utils";
 
