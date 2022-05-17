@@ -1,10 +1,10 @@
 import { Link } from "@remix-run/react";
 import Footer from "~/components/Footer";
 
-import { useOptionalUser } from "~/utils";
+// import { useOptionalUser } from "~/utils";
 
 export default function Index() {
-  const user = useOptionalUser();
+  // const user = useOptionalUser();
   return (
     <main className="relative min-h-screen mx-auto flex flex-col sm:flex sm:items-center">
       <div className="py-24 sm:py-32 px-4">
@@ -24,7 +24,7 @@ export default function Index() {
         </div>
       </div>
       <div className="py-20 sm:py-32 bg-white px-4 flex flex-col w-full items-center">
-        <h2 className="text-2xl font-semibold text-center mb-6">Why Dollar Cost Average?</h2>
+        <h2 className="text-3xl font-semibold text-center mb-6">Why Dollar Cost Average?</h2>
         <div className="max-w-4xl">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             <div className="border border-neutral-200 p-6 shadow-sm rounded-md">
@@ -52,7 +52,7 @@ export default function Index() {
         </div>
       </div>
       <div className="py-20 sm:py-32 px-4 flex flex-col w-full items-center">
-        <h2 className="text-2xl font-semibold mb-6">What is Dollar Cost Averaging?</h2>
+        <h2 className="text-3xl font-semibold mb-6">What is Dollar Cost Averaging?</h2>
         <div className="max-w-2xl">
           <div className="mb-10">
             <p className="mb-4">Dollar cost averaging is an investing technique where an investor buys a fixed dollar 
@@ -74,7 +74,7 @@ export default function Index() {
       </div>
       <div className="bg-white py-20 px-4 sm:py-32 w-full flex flex-col">
         <div className="mx-auto">
-        <h2 className="text-2xl font-semibold mb-6 text-center">Dollar Cost Average Examples</h2>
+        <h2 className="text-3xl font-semibold mb-6 text-center">Dollar Cost Average Examples</h2>
         <div className="mb-8">
           <p className="underline mb-2">Buying $5 worth of bitcoin every day from 1-1-2020 until 12-31-2021</p>
           <p className="">• Total Investment: $3,655</p>
