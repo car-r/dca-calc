@@ -354,7 +354,7 @@ export default function Home() {
     return(
         <div className="grid grid-cols-1 w-11/12 mx-auto gap-4">
             <div className="pt-10">
-                <h1 className="text-neutral-700 font-bold text-2xl">Stock DCA Calculator</h1>
+                <h1 className="text-neutral-700 font-bold text-3xl">Stock DCA Calculator</h1>
             </div>
             
             

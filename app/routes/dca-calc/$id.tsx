@@ -234,6 +234,12 @@ export const loader = async ({params}: any) => {
 
 export default function DcaStockDetailPage({params}: any) {
     const data = useLoaderData()
+    const dcaAmount = data[0].amount
+    const dcaStartYear = data[0].startDate.slice(0, 4)
+    const dcaEndYear = data[0].endData.slice(0, 4)
+    const dcaStartDay = data[0].startDate.slice(5, 10)
+    const dcaEndDay = data[0].endData.slice(5, 10)
+    const displayDcaAmount = Number(dcaAmount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})
     const totalIntervals = data[1].length
     const recentData = data[2]
     const sharesData = data[1].map((interval: any) => ((data[0].amount / interval.low)))
@@ -242,16 +248,16 @@ export default function DcaStockDetailPage({params}: any) {
     const totalInvestment = sharesData.length * data[0].amount
     const displayTotalInvestment = Number(totalInvestment).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})
     const currentUSD: any = (data[2]['open'] * totalShares).toFixed(2)
-    const displayCurrentValue = Number(currentUSD).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2})
+    const displayCurrentValue = Number(currentUSD).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})
     const gainLoss = (currentUSD - totalInvestment)
-    const roundedGainLoss = Number(gainLoss.toFixed(2)).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2})
-    const gainLossString = roundedGainLoss.toString()
+    const roundedGainLoss = Number(gainLoss.toFixed(2)).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})
     const percentageGainLoss = ((currentUSD / totalInvestment) - 1) * 100
     
     console.log(data, totalIntervals, sharesData, totalShares, totalInvestment, currentUSD, recentData)
     return (
         <div className="grid grid-cols-1 gap-4">
-            <h1>{`${data[0]['asset']} ${data[0].frequency} DCA`}</h1>
+            <h1 className="text-center font-light text-lg">{`Results for a $${displayDcaAmount} ${data[0].frequency} Dollar Cost Average into ${data[0]['asset']} from ${dcaStartDay}-${dcaStartYear} to ${dcaEndDay}-${dcaEndYear}`}</h1>
+            {/* <h1 className="text-center font-light">{`${data[0]['asset']} ${data[0].frequency} DCA`}</h1> */}
             <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
                 <p className="font-bold text-2xl">{displayTotalShares}</p>
                 <p className="font-light">Total Shares</p>
@@ -265,7 +271,7 @@ export default function DcaStockDetailPage({params}: any) {
                 <p className="font-light">{`${gainLoss > 0 ? 'Increase' : 'Decrease'}`}</p>
             </div>
             <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
-                <p className="font-bold text-2xl">${gainLoss > 0 ? gainLoss.toFixed(2) : gainLossString.slice(1)}</p>
+                <p className="font-bold text-2xl">${roundedGainLoss}</p>
                 <p className="font-light">{`Total ${gainLoss > 0 ? 'Gain' : 'Loss'}`}</p>
             </div>
             <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
