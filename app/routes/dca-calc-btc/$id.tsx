@@ -1,4 +1,4 @@
-import { useLoaderData } from "@remix-run/react"
+import { useLoaderData, useTransition } from "@remix-run/react"
 import { prisma } from "~/db.server";
 
 export const loader = async ({params}: any) => {
@@ -330,6 +330,15 @@ export const loader = async ({params}: any) => {
 
 export default function DcaDetailPage({params}: any) {
     const data = useLoaderData()
+    const transition = useTransition()
+    
+
+    const dcaAmount = data[0].amount
+    const dcaStartYear = data[0].startDate.slice(0, 4)
+    const dcaEndYear = data[0].endData.slice(0, 4)
+    const dcaStartDay = data[0].startDate.slice(5, 10)
+    const dcaEndDay = data[0].endData.slice(5, 10)
+    const displayDcaAmount = Number(dcaAmount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})
     const recentDataLength = data[2].length
     const recentData = data[2][recentDataLength - 1]['low']
     // const totalIntervals = data[1].length
@@ -339,15 +348,16 @@ export default function DcaDetailPage({params}: any) {
     const totalInvestment = satsData.length * data[0].amount
     const displayTotalInvestment = Number(totalInvestment).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})
     const currentUSD: any = ((recentData / 100000000) * totalSats).toFixed(2)
-    const displayCurrentValue = Number(currentUSD).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2})
+    const displayCurrentValue = Number(currentUSD).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})
     const gainLoss = (currentUSD - totalInvestment)
-    const roundedGainLoss = Number(gainLoss.toFixed(2)).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2})
+    const roundedGainLoss = Number(gainLoss.toFixed(2)).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})
     const percentageGainLoss = ((currentUSD / totalInvestment) - 1) * 100
     
     console.log(data, recentDataLength, recentData)
     return (
+        {transition.state === "idle" ? <p>loading</p> : transition.state === "loading" ? <p>loading state</p> :
         <div className="grid grid-cols-1 gap-4">
-            <h1>{`${data[0]['asset']} ${data[0].frequency} DCA`}</h1>
+            <h1 className="text-center font-light text-lg">{`Results for a $${displayDcaAmount} ${data[0].frequency} Dollar Cost Average into ${data[0]['asset']} from ${dcaStartDay}-${dcaStartYear} to ${dcaEndDay}-${dcaEndYear}`}</h1>
             <div className="bg-white shadow-md p-4 rounded-lg text-neutral-400 flex flex-col">
                 <p className="font-bold text-2xl">{displayTotalSats}</p>
                 <p className="font-light">Total Satoshis</p>
@@ -369,5 +379,6 @@ export default function DcaDetailPage({params}: any) {
                 <p className="font-light">Total Investment</p>
             </div>
         </div>
+        }
     )
 }
