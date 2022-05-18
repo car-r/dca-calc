@@ -1,4 +1,4 @@
-import {  Form, Outlet } from "@remix-run/react";
+import {  Form, Outlet, useTransition } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
 // import { json } from "@remix-run/node";
 // import { useEffect, useState, useRef } from "react";
@@ -29,7 +29,14 @@ export const action = async ({ request }: any) => {
 }
 
 export default function Home() {
-    
+    const transition = useTransition()
+
+    const btnText = 
+        transition.state === 'submitting'
+        ? "Calculating your DCA"
+        : transition.state === 'loading'
+        ? "Finished!"
+        : "Calculate"
     
     // const data = useLoaderData()
     // const totalIntervals = data[0].length
@@ -77,7 +84,7 @@ export default function Home() {
                   <input type="hidden" name="asset" value="Bitcoin"/>
                 </div>
                      
-                <button type="submit" className="bg-neutral-400 border border-neutral-400 p-2 text-center text-white font-bold rounded-lg hover:bg-white hover:text-black  hover:ease-in-out hover: duration-300">Calculate</button>
+                <button type="submit" className="bg-neutral-400 border border-neutral-400 p-2 text-center text-white font-bold rounded-lg hover:bg-white hover:text-black  hover:ease-in-out hover: duration-300">{btnText}</button>
             </Form>
             
             
